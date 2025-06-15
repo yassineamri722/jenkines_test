@@ -2,13 +2,13 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_IMAGE = "yassineamri/test-image" //second try
+    DOCKER_IMAGE = "yassineamri/test-image"
   }
 
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/yassineamri722/jenkines_test.git'
+        git branch: 'main', url: 'https://github.com/yassineamri722/jenkines_test.git'
       }
     }
 
