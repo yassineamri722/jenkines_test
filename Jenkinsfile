@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_IMAGE = "yassineamri/test-image" // Remplace par ton Docker Hub username
+    DOCKER_IMAGE = "yassineamri/test-image" //second try
   }
 
   stages {
