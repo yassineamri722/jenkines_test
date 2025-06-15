@@ -3,8 +3,6 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = "yassineamri/test-image"
-    DOCKERHUB_USERNAME = credentials('dockerhub-username')
-    DOCKERHUB_PASSWORD = credentials('dockerhub-password')
   }
 
   stages {
@@ -22,8 +20,10 @@ pipeline {
 
     stage('Login & Push') {
       steps {
-        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
-        sh "docker push ${DOCKER_IMAGE}:latest"
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+          sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+          sh "docker push ${DOCKER_IMAGE}:latest"
+        }
       }
     }
 
