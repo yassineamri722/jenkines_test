@@ -3,6 +3,8 @@ pipeline {
 
   environment {
     DOCKER_IMAGE = "yassineamri/test-image"
+    DOCKERHUB_USERNAME = credentials('dockerhub-username')
+    DOCKERHUB_PASSWORD = credentials('dockerhub-password')
   }
 
   stages {
@@ -14,28 +16,21 @@ pipeline {
 
     stage('Build Image') {
       steps {
-        script {
-          docker.build("${DOCKER_IMAGE}:latest")
-        }
+        sh "docker build -t ${DOCKER_IMAGE}:latest ."
       }
     }
 
     stage('Login & Push') {
       steps {
-        script {
-          docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-user') {
-            docker.image("${DOCKER_IMAGE}:latest").push()
-          }
-        }
+        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+        sh "docker push ${DOCKER_IMAGE}:latest"
       }
     }
 
     stage('Pull & Run') {
       steps {
-        script {
-          sh "docker pull ${DOCKER_IMAGE}:latest"
-          sh "docker run --rm ${DOCKER_IMAGE}:latest"
-        }
+        sh "docker pull ${DOCKER_IMAGE}:latest"
+        sh "docker run --rm ${DOCKER_IMAGE}:latest"
       }
     }
   }
