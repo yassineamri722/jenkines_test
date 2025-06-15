@@ -4,17 +4,17 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo 'Étape Build'
+        echo 'Étape Build by yassine '
       }
     }
     stage('Test') {
       steps {
-        echo 'Étape Test'
+        echo 'Étape Test by yassine'
       }
     }
     stage('Deploy') {
       steps {
-        echo 'Étape Deploy'
+        echo 'Étape Deploy by yassine'
       }
     }
   }
