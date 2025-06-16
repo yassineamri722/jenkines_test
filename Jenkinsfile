@@ -6,12 +6,6 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        git branch: 'main', url: 'https://github.com/yassineamri722/jenkines_test.git'
-      }
-    }
-
     stage('Build Image') {
       steps {
         sh "docker build -t ${DOCKER_IMAGE}:latest ."
